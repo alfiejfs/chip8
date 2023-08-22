@@ -4,6 +4,7 @@
 #include <common/types.h>
 
 #include <array>
+#include <stack>
 
 class CPU {
 
@@ -23,9 +24,34 @@ class CPU {
         // Move assignment not supported
         CPU& operator=(const CPU&&) = delete;      
 
-
+    // Public functions
     public:
+        void perform_cycle();
+
+    // Private functions
+    private:
+        instruction fetch();
+
+        void decode_and_execute(instruction& instruction);
+
+        void write_font();
+
+    // Members
+    private:
         std::array<byte, 4096> d_memory;
+
+        word d_programCounter;
+
+        word d_indexRegister;
+
+        std::stack<word> d_stack;
+
+        byte d_delayTimer;
+
+        byte d_soundTimer;
+
+        byte d_registers[16];
+
 };
 
 #endif
